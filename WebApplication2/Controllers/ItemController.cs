@@ -6,12 +6,12 @@ namespace GeocachingAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GeocacheController : ControllerBase
+    public class ItemController : ControllerBase
     {
         [HttpPost]
-        public void Post([FromBody] GeocacheRequest req)
+        public void Post([FromBody] ItemRequest req)
         {
-            GeocacheClient.Save(req);
+            ItemClient.Save(req);
         }
     }
 }
