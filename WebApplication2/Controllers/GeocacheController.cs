@@ -27,5 +27,11 @@ namespace GeocachingAPI.Controllers
         {
             GeocacheClient.Save(req);
         }
+
+        [HttpPut("{id}")]
+        public void Save(uint id, GeocacheRequest req)
+        {
+            GeocacheClient.Save(id, req);
+        }
     }
 }

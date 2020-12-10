@@ -6,14 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using GeocachingAPI.Entities;
-using GeocachingAPI.Models;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 
@@ -31,12 +26,9 @@ namespace GeocachingAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //old
-            //services.AddControllers();
-
-            //new
             services.AddControllersWithViews(options =>
             {
+                // Code for JSON Patch
                 options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
             });
 

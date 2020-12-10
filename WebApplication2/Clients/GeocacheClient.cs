@@ -27,6 +27,22 @@ namespace GeocachingAPI.Clients
             }
         }
 
+        // Update an existing Geocache in the DB
+        public static GeocacheEntity Save(uint id, GeocacheRequest request)
+        {
+            using (var db = new GeocachingContext())
+            {
+                var geocache = db.Geocache.First(x => x.Id == id);
+
+                geocache.Name = request.Name;
+                geocache.Latitude = request.Latitude;
+                geocache.Longitude = request.Longitude;
+
+                db.SaveChanges();
+                return geocache;
+            }
+        }
+
         // Return a list of Geocaches based on query parameters
         // If no query parameters are given, the method will return all geocaches in the database
         public static List<GeocacheEntity> Get(GeocacheQuery query)
