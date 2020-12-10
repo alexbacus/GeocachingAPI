@@ -7,18 +7,19 @@ namespace GeocachingAPI.Entities
 {
     public partial class GeocachingContext
     {
-        public DbSet<ItemEntity> Items { get; set; }
+        public DbSet<ItemEntity> Item { get; set; }
     }
 
-    [Table("items")]
+    [Table("item")]
     public class ItemEntity
     {
         public uint Id { get; set; }
 
         [Required]
+        [MaxLength(50)]
         public string Name { get; set; }
 
-        public uint? CacheId { get; set; }
+        public uint? CacheId { get; set; } = null;
 
         [Required]
         public DateTime ActiveStartDate { get; set; }

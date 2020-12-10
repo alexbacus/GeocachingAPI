@@ -1,13 +1,14 @@
-﻿using GeocachingAPI.Entities;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeocachingAPI.Models
 {
     public class ItemRequest
     {
         [Required]
+        [MaxLength(50)]
+        [RegularExpression(@"^[A-Za-z0-9\s]*$", 
+            ErrorMessage = "Only letters, numbers, and white spaces are allowed.")]
         public string Name { get; set; }
 
         public uint? CacheId { get; set; }

@@ -26,9 +26,9 @@ namespace GeocachingAPI.Entities
             base.OnModelCreating(builder);
 
             builder.Entity<GeocacheEntity>()
-                .ToTable("geocaches");
+                .ToTable("geocache");
             builder.Entity<ItemEntity>()
-                .ToTable("items");
+                .ToTable("item");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

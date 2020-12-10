@@ -6,11 +6,11 @@ namespace GeocachingAPI.Entities
 {
     public partial class GeocachingContext
     {
-        public DbSet<GeocacheEntity> Geocaches { get; set; }
+        public DbSet<GeocacheEntity> Geocache { get; set; }
 
     }
 
-    [Table("geocaches")]
+    [Table("geocache")]
     public class GeocacheEntity
     {
         public uint Id { get; set; }
