@@ -11,10 +11,15 @@ namespace GeocachingAPI.Clients
 {
     public class ItemClient
     {
-        // Return a single Geocache based on specified unique identifier
-        public static ItemEntity Get(uint id)
+        private readonly GeocachingContext _context;
+        public ItemClient(GeocachingContext context)
         {
-            using (var db = new GeocachingContext())
+            _context = context;
+        }
+        // Return a single Geocache based on specified unique identifier
+        public ItemEntity Get(uint id)
+        {
+            using (var db = _context)
             {
                 var result = db.Item.FirstOrDefault(x => x.Id == id);
 
@@ -30,9 +35,9 @@ namespace GeocachingAPI.Clients
 
         // Create and add a new Item to the DB
         // CacheId can be left null
-        public static ItemEntity Save(ItemRequest request)
+        public ItemEntity Save(ItemRequest request)
         {
-            using (var db = new GeocachingContext())
+            using (var db = _context)
             {
                 // If the request contains a Geocache ID, verify that it does not already contain 3 active Items
                 // If the Geocache contains 3 active items, throw an Exception and do not save the new Item to the DB
@@ -67,11 +72,11 @@ namespace GeocachingAPI.Clients
 
         // Get all items in the DB
         // If a GeocacheId is specified in the query, returns only active items that belong to that geocache
-        public static List<ItemEntity> Get(ItemQuery query)
+        public List<ItemEntity> Get(ItemQuery query)
         {
             var now = DateTime.UtcNow;
 
-            using (var db = new GeocachingContext())
+            using (var db = _context)
             {
                 var result = db.Item.AsNoTracking();
 
@@ -98,11 +103,11 @@ namespace GeocachingAPI.Clients
              * this example would set a item entity's cache ID to null
             */
         // https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1#json-patch
-        public static ItemEntity Save(uint id, [FromBody] JsonPatchDocument<ItemEntity> patchDoc)
+        public ItemEntity Save(uint id, [FromBody] JsonPatchDocument<ItemEntity> patchDoc)
         {
             var now = DateTime.UtcNow;
 
-            using (var db = new GeocachingContext())
+            using (var db = _context)
             {
                 var entity = db.Item.First(x => x.Id == id);
 
@@ -136,37 +141,8 @@ namespace GeocachingAPI.Clients
             }
         }
 
-        // Update the Geocache an Item belongs to (or set to null to remove the Item from Geocache)
-        // If Geocache ID is not null, verify that the Geocache does not already have 3 associated Items
-        public static ItemEntity Save(uint itemId, uint? geocacheId)
-        {
-            using (var db = new GeocachingContext())
-            {
-                var item = db.Item.First(x => x.Id == itemId);
-
-                if (geocacheId.HasValue)
-                {
-                    if (CheckItemsInCache((uint)geocacheId) < 3)
-                    {
-                        item.CacheId = geocacheId;
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        throw new Exception("The specified Geocache already contains 3 active items.");
-                    }
-                }
-                else
-                {
-                    item.CacheId = null;
-                }
-
-                return item;
-            }
-        }
-
         // This method returns the count of active Items currently assigned to a Geocache
-        public static int CheckItemsInCache(uint geocacheId)
+        public int CheckItemsInCache(uint geocacheId)
         {
             var query = new ItemQuery
             {

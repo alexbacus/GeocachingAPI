@@ -11,31 +11,37 @@ namespace GeocachingAPI.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
+        private ItemClient client;
+        public ItemController(GeocachingContext context)
+        {
+            client = new ItemClient(context);
+        }
+
         [HttpGet]
         public List<ItemEntity> Get([FromQuery] ItemQuery query)
         {
-            return ItemClient.Get(query);
+            return client.Get(query);
         }
 
         [HttpGet("{id}")]
         public ItemEntity Get(uint id)
         {
-            return ItemClient.Get(id);
+            return client.Get(id);
         }
 
         [HttpPost]
-        public void Post([FromBody] ItemRequest req)
+        public ItemEntity Post([FromBody] ItemRequest req)
         {
-            ItemClient.Save(req);
+            return client.Save(req);
         }
 
         // Instead of the typical Save(uint id, [type] columnName) PATCH method, this uses .NET Core JsonPatch
         // This allows for a more dynamic PATCH method that can update any column, instead of just a single specified column
         // It also decreases the load in comparison to a PUT method that requires the entire entity (See GeocacheController PUT)
         [HttpPatch("{id}")]
-        public void Save(uint id, [FromBody] JsonPatchDocument<ItemEntity> patchDoc)
+        public ItemEntity Patch(uint id, [FromBody] JsonPatchDocument<ItemEntity> patchDoc)
         {
-            ItemClient.Save(id, patchDoc);
+            return client.Save(id, patchDoc);
         }
     }
 }

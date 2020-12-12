@@ -29,15 +29,15 @@ namespace GeocachingAPI.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] GeocacheRequest req)
+        public GeocacheEntity Post([FromBody] GeocacheRequest req)
         {
-            client.Save(req);
+            return client.Save(req);
         }
 
         [HttpPut("{id}")]
-        public void Save(uint id, GeocacheRequest req)
+        public GeocacheEntity Put(uint id, GeocacheRequest req)
         {
-            client.Save(id, req);
+            return client.Save(id, req);
         }
     }
 }
