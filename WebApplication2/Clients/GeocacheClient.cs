@@ -15,7 +15,11 @@ namespace GeocachingAPI.Clients
             _context = context;
         }
 
-        // Create and add a new Geocache to the DB
+        /// <summary>
+        /// Create and add a new Geocache to the DB
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>GeocacheEntity</returns>
         public GeocacheEntity Save(GeocacheRequest request)
         {
             using (var db = _context)
@@ -33,7 +37,12 @@ namespace GeocachingAPI.Clients
             }
         }
 
-        // Update an existing Geocache in the DB
+        /// <summary>
+        /// Update an existing Geocache in the DB
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns>GeocacheEntity</returns>
         public GeocacheEntity Save(uint id, GeocacheRequest request)
         {
             using (var db = _context)
@@ -49,8 +58,12 @@ namespace GeocachingAPI.Clients
             }
         }
 
-        // Return a list of Geocaches based on query parameters
-        // If no query parameters are given, the method will return all geocaches in the database
+        /// <summary>
+        /// Return a list of Geocaches based on query parameters
+        /// If no query parameters are given, the method will return all geocaches in the database
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns>List<GeocacheEntity></returns>
         public List<GeocacheEntity> Get(GeocacheQuery query)
         {
             using (var db = _context)
@@ -71,7 +84,11 @@ namespace GeocachingAPI.Clients
             }
         }
 
-        // Return a single Geocache based on specified unique identifier
+        /// <summary>
+        /// Return a single Geocache based on specified unique identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>GeocacheEntity</returns>
         public GeocacheEntity Get(uint id)
         {
             using (var db = _context)

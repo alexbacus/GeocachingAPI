@@ -16,7 +16,12 @@ namespace GeocachingAPI.Clients
         {
             _context = context;
         }
-        // Return a single Geocache based on specified unique identifier
+
+        /// <summary>
+        /// Return a single Geocache based on specified unique identifier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ItemEntity</returns>
         public ItemEntity Get(uint id)
         {
             using (var db = _context)
@@ -33,8 +38,12 @@ namespace GeocachingAPI.Clients
             }
         }
 
-        // Create and add a new Item to the DB
-        // CacheId can be left null
+        /// <summary>
+        /// Create and add a new Item to the DB
+        /// CacheId can be left null
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>ItemEntity</returns>
         public ItemEntity Save(ItemRequest request)
         {
             using (var db = _context)
@@ -70,8 +79,12 @@ namespace GeocachingAPI.Clients
             }
         }
 
-        // Get all items in the DB
-        // If a GeocacheId is specified in the query, returns only active items that belong to that geocache
+        /// <summary>
+        /// Get all items in the DB
+        /// If a GeocacheId is specified in the query, returns only active items that belong to that geocache
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns>List<ItemEntity></returns>
         public List<ItemEntity> Get(ItemQuery query)
         {
             var now = DateTime.UtcNow;
@@ -94,14 +107,19 @@ namespace GeocachingAPI.Clients
             }
         }
 
-        // Update a column of a single Item entity
+        /// <summary>
+        /// Update a column of a single Item entity
         // The patchDoc parameter will look like the following:
-            /* [ { "op": "replace", "path": "/cacheId", "value": null } ]
-             * op: the operation to be performed
-             * path: the column name that is to be changed
-             * value: the new value for the column
-             * this example would set a item entity's cache ID to null
-            */
+        /* [ { "op": "replace", "path": "/cacheId", "value": null } ]
+         * op: the operation to be performed
+         * path: the column name that is to be changed
+         * value: the new value for the column
+         * this example would set a item entity's cache ID to null
+        */
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="patchDoc"></param>
+        /// <returns>ItemEntity</returns>
         // https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1#json-patch
         public ItemEntity Save(uint id, [FromBody] JsonPatchDocument<ItemEntity> patchDoc)
         {
@@ -141,7 +159,11 @@ namespace GeocachingAPI.Clients
             }
         }
 
-        // This method returns the count of active Items currently assigned to a Geocache
+        /// <summary>
+        /// This method returns the count of active Items currently assigned to a Geocache
+        /// </summary>
+        /// <param name="geocacheId"></param>
+        /// <returns>int</returns>
         public int CheckItemsInCache(uint geocacheId)
         {
             var query = new ItemQuery
