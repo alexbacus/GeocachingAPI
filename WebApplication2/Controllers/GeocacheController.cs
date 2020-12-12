@@ -10,28 +10,34 @@ namespace GeocachingAPI.Controllers
     [ApiController]
     public class GeocacheController : ControllerBase
     {
+        private GeocacheClient client;
+        public GeocacheController(GeocachingContext context)
+        {
+            client = new GeocacheClient(context);
+        }
+
         [HttpGet]
         public List<GeocacheEntity> Get([FromQuery] GeocacheQuery query)
         {
-            return GeocacheClient.Get(query);
+            return client.Get(query);
         }
 
         [HttpGet("{id}")]
         public GeocacheEntity Get(uint id)
         {
-            return GeocacheClient.Get(id);
+            return client.Get(id);
         }
 
         [HttpPost]
         public void Post([FromBody] GeocacheRequest req)
         {
-            GeocacheClient.Save(req);
+            client.Save(req);
         }
 
         [HttpPut("{id}")]
         public void Save(uint id, GeocacheRequest req)
         {
-            GeocacheClient.Save(id, req);
+            client.Save(id, req);
         }
     }
 }

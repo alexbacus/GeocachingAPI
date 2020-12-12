@@ -9,10 +9,16 @@ namespace GeocachingAPI.Clients
 {
     public class GeocacheClient
     {
-        // Create and add a new Geocache to the DB
-        public static GeocacheEntity Save(GeocacheRequest request)
+        private readonly GeocachingContext _context;
+        public GeocacheClient(GeocachingContext context)
         {
-            using (var db = new GeocachingContext())
+            _context = context;
+        }
+
+        // Create and add a new Geocache to the DB
+        public GeocacheEntity Save(GeocacheRequest request)
+        {
+            using (var db = _context)
             {
                 var geocache = new GeocacheEntity
                 {
@@ -28,9 +34,9 @@ namespace GeocachingAPI.Clients
         }
 
         // Update an existing Geocache in the DB
-        public static GeocacheEntity Save(uint id, GeocacheRequest request)
+        public GeocacheEntity Save(uint id, GeocacheRequest request)
         {
-            using (var db = new GeocachingContext())
+            using (var db = _context)
             {
                 var geocache = db.Geocache.First(x => x.Id == id);
 
@@ -45,9 +51,9 @@ namespace GeocachingAPI.Clients
 
         // Return a list of Geocaches based on query parameters
         // If no query parameters are given, the method will return all geocaches in the database
-        public static List<GeocacheEntity> Get(GeocacheQuery query)
+        public List<GeocacheEntity> Get(GeocacheQuery query)
         {
-            using (var db = new GeocachingContext())
+            using (var db = _context)
             {
                 var result = db.Geocache.AsNoTracking();
 
@@ -66,9 +72,9 @@ namespace GeocachingAPI.Clients
         }
 
         // Return a single Geocache based on specified unique identifier
-        public static GeocacheEntity Get(uint id)
+        public GeocacheEntity Get(uint id)
         {
-            using (var db = new GeocachingContext())
+            using (var db = _context)
             {
                 var result = db.Geocache.FirstOrDefault(x => x.Id == id);
 

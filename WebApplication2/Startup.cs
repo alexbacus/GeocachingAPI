@@ -46,7 +46,6 @@ namespace GeocachingAPI
             );
         }
 
-        //new
         private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()
         {
             var builder = new ServiceCollection()
