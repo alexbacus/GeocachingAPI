@@ -22,19 +22,16 @@ namespace GeocachingAPI.Clients
         /// <returns>GeocacheEntity</returns>
         public GeocacheEntity Save(GeocacheRequest request)
         {
-            using (var db = _context)
+            var geocache = new GeocacheEntity
             {
-                var geocache = new GeocacheEntity
-                {
-                    Name = request.Name,
-                    Latitude = request.Latitude,
-                    Longitude = request.Longitude
-                };
+                Name = request.Name,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude
+            };
 
-                db.Geocache.Add(geocache);
-                db.SaveChanges();
-                return geocache;
-            }
+            _context.Geocache.Add(geocache);
+            _context.SaveChanges();
+            return geocache;
         }
 
         /// <summary>
@@ -45,17 +42,14 @@ namespace GeocachingAPI.Clients
         /// <returns>GeocacheEntity</returns>
         public GeocacheEntity Save(uint id, GeocacheRequest request)
         {
-            using (var db = _context)
-            {
-                var geocache = db.Geocache.First(x => x.Id == id);
+            var geocache = _context.Geocache.First(x => x.Id == id);
 
-                geocache.Name = request.Name;
-                geocache.Latitude = request.Latitude;
-                geocache.Longitude = request.Longitude;
+            geocache.Name = request.Name;
+            geocache.Latitude = request.Latitude;
+            geocache.Longitude = request.Longitude;
 
-                db.SaveChanges();
-                return geocache;
-            }
+            _context.SaveChanges();
+            return geocache;
         }
 
         /// <summary>
@@ -66,22 +60,19 @@ namespace GeocachingAPI.Clients
         /// <returns>List<GeocacheEntity></returns>
         public List<GeocacheEntity> Get(GeocacheQuery query)
         {
-            using (var db = _context)
+            var result = _context.Geocache.AsNoTracking();
+
+            // If a name is given in the query, the database will return geocaches with matching names
+            if (!string.IsNullOrWhiteSpace(query.Name))
             {
-                var result = db.Geocache.AsNoTracking();
-
-                // If a name is given in the query, the database will return geocaches with matching names
-                if (!string.IsNullOrWhiteSpace(query.Name))
-                {
-                    result = result.Where(x => x.Name.ToLower() == query.Name.ToLower());
-                }
-
-                /* Latitude and longitude are included in the query object but not used here
-                   With further time and research a query could be built, but as of right now
-                   the proper search method for finding an object via latitude/longitude is unknown */
-
-                return result.ToList();
+                result = result.Where(x => x.Name.ToLower() == query.Name.ToLower());
             }
+
+            /* Latitude and longitude are included in the query object but not used here
+                With further time and research a query could be built, but as of right now
+                the proper search method for finding an object via latitude/longitude is unknown */
+
+            return result.ToList();
         }
 
         /// <summary>
@@ -91,18 +82,15 @@ namespace GeocachingAPI.Clients
         /// <returns>GeocacheEntity</returns>
         public GeocacheEntity Get(uint id)
         {
-            using (var db = _context)
+            var result = _context.Geocache.FirstOrDefault(x => x.Id == id);
+
+            if (result == null)
             {
-                var result = db.Geocache.FirstOrDefault(x => x.Id == id);
-
-                if (result == null)
-                {
-                    // throw error message if a Geocache was not found with specified ID
-                    throw new ArgumentException("Geocache with id: " + id + " was not found.");
-                }
-
-                return result;
+                // throw error message if a Geocache was not found with specified ID
+                throw new ArgumentException("Geocache with id: " + id + " was not found.");
             }
+
+            return result;
         }
     }
 }
