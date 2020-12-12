@@ -76,9 +76,9 @@ namespace GeocachingAPI.Clients
                     result = result.Where(x => x.Name.ToLower() == query.Name.ToLower());
                 }
 
-                // Latitude and longitude are included in the query object but not used here
-                // With further time and research a query could be built, but as of right now
-                // the proper search method for finding an object via latitude/longitude is unknown
+                /* Latitude and longitude are included in the query object but not used here
+                   With further time and research a query could be built, but as of right now
+                   the proper search method for finding an object via latitude/longitude is unknown */
 
                 return result.ToList();
             }

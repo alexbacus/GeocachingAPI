@@ -2,7 +2,7 @@
 {
     public class GeocacheQuery
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public float? Latitude { get; set; }
 

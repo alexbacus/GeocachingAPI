@@ -52,7 +52,7 @@ namespace GeocachingAPI.Clients
                 // If the Geocache contains 3 active items, throw an Exception and do not save the new Item to the DB
                 if (request.CacheId.HasValue)
                 {
-                    if (CheckItemsInCache((uint)request.CacheId) == 3)
+                    if (CheckItemsInCache((uint)request.CacheId) == Constants.MaxGeocacheItems)
                     {
                         throw new Exception("The specified Geocache already contains 3 active items.");
                     }
@@ -148,7 +148,7 @@ namespace GeocachingAPI.Clients
                         throw new Exception("Only active items can be moved.");
                     }
                     // active items can only be moved to Geocaches with less than 3 existing active items
-                    if (CheckItemsInCache((uint)entity.CacheId) == 3)
+                    if (CheckItemsInCache((uint)entity.CacheId) == Constants.MaxGeocacheItems)
                     {
                         throw new Exception("The specified Geocache already contains 3 active items.");
                     }

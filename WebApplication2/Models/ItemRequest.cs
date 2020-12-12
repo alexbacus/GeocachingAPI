@@ -7,7 +7,7 @@ namespace GeocachingAPI.Models
     {
         [Required]
         [MaxLength(50)]
-        [RegularExpression(@"^[A-Za-z0-9\s]*$", 
+        [RegularExpression(Constants.ItemNamePattern, 
             ErrorMessage = "Only letters, numbers, and white spaces are allowed.")]
         public string Name { get; set; }
 
