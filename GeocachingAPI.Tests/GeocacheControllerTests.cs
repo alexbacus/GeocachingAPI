@@ -29,6 +29,14 @@ namespace GeocachingAPI
             SeedData.PopulateTestData(context);
         }
 
+        // Verify successful GET Of all Geocaches in the Geocache table
+        [Fact]
+        public void GetAllGeocaches()
+        {
+            GeocacheQuery query = new GeocacheQuery();
+            Assert.True(geocacheController.Get(query).Count > 0);
+        }
+
         // Verify successful GET (by name) from Geocache table
         [Fact]
         public void GetGeocacheEntityByName()
