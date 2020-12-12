@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace GeocachingAPI
+namespace GeocachingAPI.Tests
 {
     [Collection("Integration Tests")]
     public class GeocacheControllerTests
