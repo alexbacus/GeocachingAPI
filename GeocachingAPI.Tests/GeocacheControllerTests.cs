@@ -1,7 +1,6 @@
 ﻿using GeocachingAPI.Controllers;
 using GeocachingAPI.Entities;
 using GeocachingAPI.Models;
-using GeocachingAPI.Tests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
